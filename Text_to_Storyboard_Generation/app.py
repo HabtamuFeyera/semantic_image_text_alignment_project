@@ -1,6 +1,4 @@
-# app.py (Backend Server)
-
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from models.text_module import TextUnderstandingModule
 from models.image_module import ImageGenerationModule
 from utils.preprocess import preprocess_text
@@ -15,6 +13,11 @@ text_module.eval()
 image_module = ImageGenerationModule(latent_dim, img_channels, img_size)
 image_module.load_state_dict(torch.load('saved_models/image_module.pth'))
 image_module.eval()
+
+# Define route for homepage
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # Define API endpoint for generating storyboards
 @app.route('/generate_storyboard', methods=['POST'])
